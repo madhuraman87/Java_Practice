@@ -288,10 +288,9 @@ public class StringsndArrays {
 		}
 		return st.isEmpty();
 	}
-
-	public static int findOccurence(int[] a, int x, boolean flag) { // array
-																	// with
-																	// duplicates
+	
+	// find first occurrence and last occurrence of an element in an array with duplicates
+	public static int findOccurence(int[] a, int x, boolean flag) { 
 		int len = a.length;
 		int low = 0;
 		int high = len - 1;
@@ -313,7 +312,8 @@ public class StringsndArrays {
 		}
 		return result;
 	}
-
+	
+    //count the occurrence of an element in an array with duplicates
 	public static void countOfOccurence(int[] a, int x) {
 		int count;
 		int firstIndex = findOccurence(a, x, true);
@@ -326,35 +326,27 @@ public class StringsndArrays {
 		}
 	}
 
-	public static int noOfRotations(int[] a) {// the index of the minimum
-												// element will give the no of
-												// rotations
+	// the index of the minimum element will give the no of rotations
+	public static int noOfRotations(int[] a) {
 		int len = a.length;
 		int low = 0;
 		int high = len - 1;
 		while (low <= high) {
-
-			if (a[low] <= a[high]) // case 1 : wen dere r no rotations
+			// case 1 : when there are no rotations
+			if (a[low] <= a[high]) 
 				return low;
 			int mid = (low + high) / 2;
 			int next = (mid + 1) % len;
 			int prev = (mid + len - 1) % len;
-			if (a[mid] <= a[prev] && a[mid] <= a[next]) // case 2 : wen the
-														// minimum element is
-														// somewhere in middle,
-														// according to pivot
-														// property of cyclic
-														// array, the pivot will
-														// be
-				return mid; // lesser than the next and prev element, thereby
-							// that pivot will be the minimum element.
-			if (a[mid] >= a[low]) // case 3 : wen the array is not sorted, BST
-									// prop - move towards right, discarding
-									// left window of elements
+			// case 2 : when the minimum element is somewhere in middle, according to pivot property of cyclic array, the pivot will be 
+			// lesser than the next and previous element, thereby that pivot will be the minimum element.
+			if (a[mid] <= a[prev] && a[mid] <= a[next]) 
+				return mid; 
+			// case 3 : when the array is not sorted, BST prop - move towards right, discarding left window of elements
+			if (a[mid] >= a[low]) 
 				low = mid + 1;
-			else if (a[mid] <= a[high]) // case 4 : wen the array is not sorted,
-										// BST prop - move towards left,
-										// discarding right window of elements
+			// case 4 : when the array is not sorted, BST prop - move towards left, discarding right window of elements
+			else if (a[mid] <= a[high]) 
 				high = mid - 1;
 		}
 		return -1;
@@ -383,13 +375,100 @@ public class StringsndArrays {
 		}
 		return -1;
 	}
-
+	
+	//find if two strings are anagram or permutation of each other - http://collabedit.com/wcc2s
+	public static boolean isAnagram(String a, String b){
+		if(a.length() != b.length() || a == null || b == null || a.isEmpty() || b.isEmpty()){
+			return false;
+		}
+		
+		char[] aStr = a.toCharArray();
+		char[] bStr = b.toCharArray();
+		Arrays.sort(aStr);
+		Arrays.sort(bStr);
+		a = String.valueOf(aStr);
+		b = String.valueOf(bStr);
+		
+		for(int i=0; i<aStr.length; i++){
+			if(aStr[i] != bStr[i]){
+				return false;
+			}
+		}
+		return true;
+		
+//		return Arrays.equals(aStr, bStr);
+//		return a.equals(b);
+	}
+	
+	//find the fibonacci number given the nth number - recursive
+	public static int fibonacciR(int n){
+		if(n == 0){
+			return 0;
+		}else if(n == 1){
+			return 1;
+		}		
+		return (fibonacciR(n-1) + fibonacciR(n-2));
+	}
+	
+	//find the fibonacci number given the nth number - iterative
+	public static int fibonaccI(int n){
+		int fib1 = 0;
+		int fib2 = 1;
+		int fibonacci = 0;
+		for(int i=2; i<=n; i++){
+			fibonacci = fib1 + fib2;
+			fib1 = fib2;
+			fib2 = fibonacci;
+		}
+		return fibonacci;
+	}
+	
+	//Given an array of size n, find the majority element. The majority element is the element that appears more than ⌊ n/2 ⌋ times. 
+	//(assume that the array is non-empty and the majority element always exist in the array.)
+	public static int majorityElement(int[] num){
+		if(num.length == 0){
+			return -1;
+		}
+		if(num.length == 1){
+			return num[0];
+		}
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for(int i : num){
+			if(!map.containsKey(i)){
+				map.put(i, 1);
+			}else{
+				map.put(i, (map.get(i)+1));
+			}
+		}
+		for(int key : map.keySet()){
+			if(map.get(key) > num.length/2){
+				return key;
+			}
+		}
+		return -1;		
+	}
+	
+	public static int majorityElementS(int[] num){
+		if(num.length == 0){
+			return -1;
+		}
+		if(num.length == 1){
+			return num[0];
+		}
+		Arrays.sort(num);
+		return num[num.length/2];
+	}
+	
 	// "123" --> 123 https://code.stypi.com/ypsk4yzi
 	public static int atoi(char[] str, int len) {
 //		String tmp = new String(str);
 //		int result = Integer.parseInt(tmp);
-//		return result;
+//		return result;		
+		
 //		String y = String.valueOf(str);
+//		int result = Integer.parseInt(y);
+//		return result;
+		
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < len; i++) {
 			char x = str[i];
@@ -397,7 +476,6 @@ public class StringsndArrays {
 			String y = String.valueOf(x); //returns string value
 			sb.append(y);
 		}
-//		int result = Integer.parseInt(y);
 		int result = Integer.parseInt(sb.toString());//returns integer value of string--string to int conv
 		return result;
 	}
@@ -432,8 +510,13 @@ public class StringsndArrays {
 		// //countOfOccurence(iparray,6);
 		// System.out.println("No of rotations is " +noOfRotations(iparray));
 
-		char[] str = new char[]{'1','2','3','4'};
-		System.out.println("The output : " + atoi(str, 4));
+//		char[] str = new char[]{'1','2','3','4'};
+//		System.out.println("The output : " + atoi(str, 4));
+		
+		System.out.println(isAnagram("abcc", "ccb"));
+		System.out.println(fibonaccI(7));
+		int[] iparray = new int[] {1,1,5,1,4,1,6,1,1};
+		System.out.println(majorityElementS(iparray));
 		//obj.close();
 	}
 }
