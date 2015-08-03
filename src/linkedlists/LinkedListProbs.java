@@ -150,26 +150,52 @@ public class LinkedListProbs {
 	
 	public static Node reverseNode(Node head){
 		if(head == null || head.next == null) return null;
-		Node curr = head.next;
-		Node prev = head;
-		head.next = null;
+		Node curr = head;
+		Node prev = null;
+		Node nnext = head.next;
 		while(curr != null){
-			Node nnext = curr.next;
 			curr.next = prev;
 			prev = curr;
 			curr = nnext;
+			nnext = nnext.next;
 		}
-		head = prev;
+		return curr;
+	}
+	
+	public static Node buildNewList(Node head){
+		//Node nextt = head.next;
+		Node curr = head;
+		Node last = null;
+		Stack<Node> stack = new Stack<Node>();		
+		while(curr.next != null){
+			last = getLastNode(curr);
+			stack.add(last);
+			curr = Node.deleteNode(curr, last.data);
+			curr = curr.next;
+		}
+		System.out.println(head.data);
+		System.out.println(curr.data);
 		return head;
 	}
 	
+	public static Node getLastNode(Node head){
+		Node last = head;
+		while(head.next != null){
+			if(last.next == null){
+				break;
+			}
+			last = last.next;
+		}
+		return last;
+	}
 	public static void main(String[] args) {
-        Node l1 = Node.buildList(new int[] {1,2,2,2,1});
+        Node l1 = Node.buildList(new int[] {1,2,3,4,5});
         //Node l2 = Node.buildList(new int[] {5,9,2});
-        Node.printList(l1);
+//        buildNewList(l1);
+        Node.printList(buildNewList(l1));
 //        Node.printList(Node.reverseNode(l1));
-        //System.out.println(Node.reverseNode(l1));
-        System.out.println(isPalindrome(l1));
+        
+//       System.out.println(isPalindrome(l1));
         //      Node.printList(l1);
     }
 	

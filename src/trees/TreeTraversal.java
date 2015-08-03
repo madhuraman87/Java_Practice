@@ -65,20 +65,30 @@ public class TreeTraversal {
 	
 	public static void levelorderTraversal(TreeNode root){
 		TreeNode temp;
+		int level = 1;
+		int child = 0;
 		if(root != null){
 			q.add(root);
 			while(!q.isEmpty()){
 				temp = q.remove();
-				System.out.println(temp.data);
+				level--;
+				System.out.print(temp.data + " ");
 				if(temp.left != null){
 					q.add(temp.left);
+					child++;
 				}
 				if(temp.right != null){
 					q.add(temp.right);
+					child++;
 				}
-			}
-			q.clear();
+				if(level == 0){
+					System.out.println();
+					level = child;
+					child = 0;
+				}
+			}			
 		}
+		q.clear();
 	}
 
 }

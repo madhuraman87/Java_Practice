@@ -1,6 +1,6 @@
 package bitmanipulation;
 import java.util.*;
-//Other imports go here
+//Change bit to integer
 
 //Do NOT change the class name
 class MySolution {

@@ -43,31 +43,31 @@ public class StringsndArrays {
 		}
 		return reverse.toString();
 	}
-	
-	public static String reverse1( String string ) {
 
-	    byte[] array = string.getBytes();
-	    byte swap;
+	public static String reverse1(String string) {
 
-	    for( int i = 0, j = array.length - 1; i < array.length / 2; i++, j-- ) {
-	        swap = array[ j ];
-	        array[ j ] = array[ i ];
-	        array[ i ] = swap;
-	    }
-	    return new String( array );
+		byte[] array = string.getBytes();
+		byte swap;
+
+		for (int i = 0, j = array.length - 1; i < array.length / 2; i++, j--) {
+			swap = array[j];
+			array[j] = array[i];
+			array[i] = swap;
+		}
+		return new String(array);
 	}
-	
-	public String reverse2( String string ) {
 
-	    byte[] array = string.getBytes();
+	public String reverse2(String string) {
 
-	    for( int i = 0, j = array.length - 1; i < array.length / 2; i++, j-- ) {
+		byte[] array = string.getBytes();
 
-	        array[ i ] ^= array[ j ];
-	        array[ j ] ^= array[ i ];
-	        array[ i ] ^= array[ j ];
-	    }
-	    return new String( array );
+		for (int i = 0, j = array.length - 1; i < array.length / 2; i++, j--) {
+
+			array[i] ^= array[j];
+			array[j] ^= array[i];
+			array[i] ^= array[j];
+		}
+		return new String(array);
 	}
 
 	public static boolean isPermutation(String A, String B) {
@@ -242,6 +242,166 @@ public class StringsndArrays {
 		}
 	}
 
+	public static void getRange(int[] arr, int sum) {
+		int i;
+		int j;
+		int curr;
+		for (i = 0; i < arr.length - 1; i++) {
+			curr = arr[i];
+			for (j = i + 1; j <= arr.length - 1; j++) {
+
+				if (curr == sum) {
+					System.out.println("Sum" + sum + "is found between indexes"
+							+ i + "and" + j);
+					break;
+				}
+				if (curr > sum || j == arr.length) {
+					break;
+				}
+				curr = curr + arr[j];
+			}
+		}
+		System.out.println("Sum" + sum + "is not found");
+	}
+
+	public static boolean findMatchingBracket(String s) {
+		if (s.isEmpty()) {
+			return false;
+		}
+		char[] text = s.toCharArray();
+		Stack<Character> st = new Stack<Character>();
+		for (int i = 0; i < text.length; i++) {
+			if (text[i] == '{' || text[i] == '(' || text[i] == '[') {
+				st.push(text[i]);
+			}
+			if (text[i] == '}' || text[i] == ')' || text[i] == ']') {
+				if (st.isEmpty()) {
+					return false;
+				}
+				char curr = st.peek();
+				if (curr == '{' && text[i] == '}' || curr == '('
+						&& text[i] == ')' || curr == '[' && text[i] == ']')
+					st.pop();
+				else
+					return false;
+			}
+		}
+		return st.isEmpty();
+	}
+
+	public static int findOccurence(int[] a, int x, boolean flag) { // array
+																	// with
+																	// duplicates
+		int len = a.length;
+		int low = 0;
+		int high = len - 1;
+		int mid;
+		int result = -1;
+		while (low <= high) {
+			mid = (low + high) / 2;
+			if (x == a[mid]) {
+				result = mid;
+				if (flag)
+					high = mid - 1;// for first occurrence move towards left
+				else
+					low = mid + 1;// for last occurrence move towards right
+			} else if (x < a[mid]) {
+				high = mid - 1;
+			} else {
+				low = mid + 1;
+			}
+		}
+		return result;
+	}
+
+	public static void countOfOccurence(int[] a, int x) {
+		int count;
+		int firstIndex = findOccurence(a, x, true);
+		if (firstIndex == -1) {
+			System.out.println("Count of " + x + " is " + firstIndex);
+		} else {
+			int lastIndex = findOccurence(a, x, false);
+			count = (lastIndex - firstIndex) + 1;
+			System.out.println("Count of " + x + " is " + count);
+		}
+	}
+
+	public static int noOfRotations(int[] a) {// the index of the minimum
+												// element will give the no of
+												// rotations
+		int len = a.length;
+		int low = 0;
+		int high = len - 1;
+		while (low <= high) {
+
+			if (a[low] <= a[high]) // case 1 : wen dere r no rotations
+				return low;
+			int mid = (low + high) / 2;
+			int next = (mid + 1) % len;
+			int prev = (mid + len - 1) % len;
+			if (a[mid] <= a[prev] && a[mid] <= a[next]) // case 2 : wen the
+														// minimum element is
+														// somewhere in middle,
+														// according to pivot
+														// property of cyclic
+														// array, the pivot will
+														// be
+				return mid; // lesser than the next and prev element, thereby
+							// that pivot will be the minimum element.
+			if (a[mid] >= a[low]) // case 3 : wen the array is not sorted, BST
+									// prop - move towards right, discarding
+									// left window of elements
+				low = mid + 1;
+			else if (a[mid] <= a[high]) // case 4 : wen the array is not sorted,
+										// BST prop - move towards left,
+										// discarding right window of elements
+				high = mid - 1;
+		}
+		return -1;
+	}
+
+	public static int findElementInCArray(int[] a, int x) {
+		int len = a.length;
+		int low = 0;
+		int high = len - 1;
+		while (low <= high) {
+
+			int mid = (low + high) / 2;
+			if (x == a[mid]) // case 1
+				return mid;
+			if (a[mid] <= a[high]) { // case 2 : right array is sorted
+				if (x > a[mid] && x <= a[high])
+					low = mid + 1;
+				else
+					high = mid - 1;
+			} else if (a[mid] >= a[low]) { // case 3 : left array is sorted
+				if (x >= a[low] && x < a[mid])
+					high = mid - 1;
+				else
+					low = mid + 1;
+			}
+		}
+		return -1;
+	}
+
+	// "123" --> 123 https://code.stypi.com/ypsk4yzi
+	public static int atoi(char[] str, int len) {
+//		String tmp = new String(str);
+//		int result = Integer.parseInt(tmp);
+//		return result;
+//		String y = String.valueOf(str);
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < len; i++) {
+			char x = str[i];
+//			int y = Character.getNumericValue(x);//returns integer value
+			String y = String.valueOf(x); //returns string value
+			sb.append(y);
+		}
+//		int result = Integer.parseInt(y);
+		int result = Integer.parseInt(sb.toString());//returns integer value of string--string to int conv
+		return result;
+	}
+
 	public static void main(String[] args) {
 
 		// Scanner obj = new Scanner(System.in);
@@ -261,10 +421,19 @@ public class StringsndArrays {
 		// String input2 = obj.next();
 		// System.out.println("Output : " + isRotation(input1, input2));
 		// obj.close();
-		int input[][] = { { 5, 1, 4, 0 }, { 6, 0, 7, 8 }, { 1, 5, 0, 1 },
-				{ 2, 2, 2, 1 } };
-		displayMatrix(input);
-		System.out.println("Output Matrix: ");
-		displayMatrix(mirrorMatrixNESW(input, 4));
+		// int input[][] = { { 5, 1, 4, 0 }, { 6, 0, 7, 8 }, { 1, 5, 0, 1 },
+		// { 2, 2, 2, 1 } };
+		// displayMatrix(input);
+		// System.out.println("Output Matrix: ");
+		// displayMatrix(mirrorMatrixNESW(input, 4));
+
+		// int[] iparray = new int[] {23,28,31,5,6,8,10,12,15,22};
+		// //System.out.println(findOccurence(iparray, 5, false));
+		// //countOfOccurence(iparray,6);
+		// System.out.println("No of rotations is " +noOfRotations(iparray));
+
+		char[] str = new char[]{'1','2','3','4'};
+		System.out.println("The output : " + atoi(str, 4));
+		//obj.close();
 	}
 }

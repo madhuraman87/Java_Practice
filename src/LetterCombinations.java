@@ -1,4 +1,4 @@
-package bitmanipulation;
+
 import java.util.*;
 //Time Complexity: Time complexity of below code is O(4^n) where n is number of digits in input number.
 public class LetterCombinations {

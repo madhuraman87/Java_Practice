@@ -2,10 +2,12 @@ package linkedlists;
 public class Node {
 	int data;
 	Node next;
+	Node random;
 	
 	public Node(int data){
 		this.data = data;
 		this.next = null;
+		this.random = null;
 	}
 	public Node(){
 				
@@ -20,7 +22,7 @@ public class Node {
 		n.next = end;
 	}
 	
-	public Node deleteNode(Node head, int data){
+	public static Node deleteNode(Node head, int data){
 		Node n = head; //storing head in a temp variable
 		
 		if(n.data == data){
@@ -40,13 +42,11 @@ public class Node {
 	public int sizeOfLL(Node head){
 		Node n = head;
 		int size = 0;
-		if (n == null) return size;
-		
+		if (n == null) return size;		
 		while(n.next != null){
 			size++;
 			n = n.next;
-		}
-		
+		}		
 		return size;
 	}
 	

@@ -4,10 +4,12 @@ import java.util.Map.Entry;
 
 public class Traversal {
 	
-	static Queue<Integer> q = new LinkedList<Integer>(); 
-	static HashSet<Integer> visited = new HashSet<Integer>();
+//	static Queue<Integer> q = new LinkedList<Integer>(); 
+//	static HashSet<Integer> visited = new HashSet<Integer>();
 	
 	public static void lBreadthFirstSearch(HashMap<Integer, ArrayList<Integer>> map, int root){
+		Queue<Integer> q = new LinkedList<Integer>(); 
+		HashSet<Integer> visited = new HashSet<Integer>();
 		q.add(root);
 		visited.add(root);
 		while(!q.isEmpty()){	
